@@ -1,0 +1,13 @@
+[ERROR] smithy.example#WithInvalidVectorsString: The allowed test vector `""` failed a validation: String value provided for `smithy.example#WithInvalidVectorsString` must be >= 1 characters, but the provided value is only 0 characters. | TestVectorsTrait.allowed.0
+[ERROR] smithy.example#WithInvalidVectorsString: The allowed test vector `""` failed a validation: String value provided for `smithy.example#WithInvalidVectorsString` must match regular expression: ^a+$ | TestVectorsTrait.allowed.0
+[ERROR] smithy.example#WithInvalidVectorsString: The allowed test vector `"aaaa"` failed a validation: String value provided for `smithy.example#WithInvalidVectorsString` must be <= 3 characters, but the provided value is 4 characters. | TestVectorsTrait.allowed.2
+[ERROR] smithy.example#WithInvalidVectorsString: The allowed test vector `"aab"` failed a validation: String value provided for `smithy.example#WithInvalidVectorsString` must match regular expression: ^a+$ | TestVectorsTrait.allowed.3
+[ERROR] smithy.example#WithInvalidVectorsString: The disallowed test vector `"aa"` passed all validations when it shouldn't have | TestVectorsTrait.disallowed.0
+[ERROR] smithy.example#WithInvalidVectorsString: The disallowed test vector `"aaa"` passed all validations when it shouldn't have | TestVectorsTrait.disallowed.1
+[ERROR] smithy.example#WithInvalidVectorsBlob: The allowed test vector `""` failed a validation: Value provided for `smithy.example#WithInvalidVectorsBlob` must have at least 1 bytes, but the provided value only has 0 bytes | TestVectorsTrait.allowed.0
+[ERROR] smithy.example#WithInvalidVectorsBlob: The allowed test vector `"YWFhYQ=="` failed a validation: Value provided for `smithy.example#WithInvalidVectorsBlob` must have no more than 3 bytes, but the provided value has 4 bytes | TestVectorsTrait.allowed.2
+[ERROR] smithy.example#WithInvalidVectorsBlob: The disallowed test vector `"YWE="` passed all validations when it shouldn't have | TestVectorsTrait.disallowed.0
+[ERROR] smithy.example#WithInvalidVectorsBlob: The disallowed test vector `"YWFh"` passed all validations when it shouldn't have | TestVectorsTrait.disallowed.1
+[ERROR] smithy.example#WithInvalidVectorsInteger: The allowed test vector `4` failed a validation: Value provided for `smithy.example#WithInvalidVectorsInteger` must be less than or equal to 3, but found 4 | TestVectorsTrait.allowed.0.Target.InvalidRange
+[ERROR] smithy.example#WithInvalidVectorsInteger: The disallowed test vector `1` passed all validations when it shouldn't have | TestVectorsTrait.disallowed.0
+[ERROR] smithy.example#WithInvalidVectorsInteger: The disallowed test vector `3` passed all validations when it shouldn't have | TestVectorsTrait.disallowed.1

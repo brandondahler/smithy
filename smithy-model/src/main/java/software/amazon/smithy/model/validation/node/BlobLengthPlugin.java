@@ -5,6 +5,8 @@
 package software.amazon.smithy.model.validation.node;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import software.amazon.smithy.model.node.StringNode;
 import software.amazon.smithy.model.shapes.BlobShape;
 import software.amazon.smithy.model.shapes.Shape;
@@ -26,7 +28,8 @@ final class BlobLengthPlugin extends MemberAndShapeTraitPlugin<BlobShape, String
     @Override
     protected void check(Shape shape, LengthTrait trait, StringNode node, Context context, Emitter emitter) {
         String value = node.getValue();
-        int size = value.getBytes(StandardCharsets.UTF_8).length;
+
+        int size = Base64.getDecoder().decode(value).length;
 
         trait.getMin().ifPresent(min -> {
             if (size < min) {
@@ -39,7 +42,7 @@ final class BlobLengthPlugin extends MemberAndShapeTraitPlugin<BlobShape, String
         });
 
         trait.getMax().ifPresent(max -> {
-            if (value.getBytes(StandardCharsets.UTF_8).length > max) {
+            if (size > max) {
                 emitter.accept(node,
                         getSeverity(context),
                         "Value provided for `" + shape.getId()

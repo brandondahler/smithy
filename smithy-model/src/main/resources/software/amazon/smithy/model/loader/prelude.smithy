@@ -770,6 +770,21 @@ string pattern
 )
 structure required {}
 
+/// Defines values which are specifically allowed and/or disallowed.
+@trait(
+    selector: ":test(number, string, blob, member > :is(number, string, blob))"
+)
+structure testVectors {
+  allowed: TestVectorList
+  disallowed: TestVectorList
+}
+
+@private
+@length(min: 1)
+list TestVectorList {
+  member: Document
+}
+
 /// Configures a structure member's resource property mapping behavior.
 @trait(
     selector: "structure > member"

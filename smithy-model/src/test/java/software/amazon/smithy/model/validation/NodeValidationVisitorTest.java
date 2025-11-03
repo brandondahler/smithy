@@ -108,9 +108,9 @@ public class NodeValidationVisitorTest {
                         new String[] {
                                 "Expected string value for blob shape, `ns.foo#Blob1`; found boolean value, `true`"
                         }},
-                {"ns.foo#Blob2", "\"f\"", null},
+                {"ns.foo#Blob2", "\"Zg==\"", null},
                 {"ns.foo#Blob2",
-                        "\"fooo\"",
+                        "\"Zm9vbw==\"",
                         new String[] {
                                 "Value provided for `ns.foo#Blob2` must have no more than 3 bytes, but the provided value has 4 bytes"}},
                 {"ns.foo#Blob2",

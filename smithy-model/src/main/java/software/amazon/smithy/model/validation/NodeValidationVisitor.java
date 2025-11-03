@@ -4,15 +4,8 @@
  */
 package software.amazon.smithy.model.validation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+
 import software.amazon.smithy.model.Model;
 import software.amazon.smithy.model.SourceLocation;
 import software.amazon.smithy.model.knowledge.NullableIndex;
@@ -106,7 +99,14 @@ public final class NodeValidationVisitor implements ShapeVisitor<List<Validation
          *
          * <p>By default, null values are not allowed for optional types.
          */
-        ALLOW_OPTIONAL_NULLS;
+        ALLOW_OPTIONAL_NULLS,
+
+        /**
+         * Ignore validation for blob values that aren't valid base64 encoded values.
+         *
+         * <p>By default, string values which are not valid base64 encoded values will report an error.
+         */
+        SKIP_INVALID_BLOB_VALUES;
 
         public static Feature fromNode(Node node) {
             return Feature.valueOf(node.expectStringNode().getValue());
@@ -177,9 +177,21 @@ public final class NodeValidationVisitor implements ShapeVisitor<List<Validation
 
     @Override
     public List<ValidationEvent> blobShape(BlobShape shape) {
-        return value.asStringNode()
-                .map(stringNode -> applyPlugins(shape))
-                .orElseGet(() -> invalidShape(shape, NodeType.STRING));
+        if (!value.isStringNode()) {
+            return invalidShape(shape, NodeType.STRING);
+        }
+
+        try {
+            Base64.getDecoder().decode(value.expectStringNode().getValue());
+        } catch (IllegalArgumentException e) {
+            if (validationContext.hasFeature(Feature.SKIP_INVALID_BLOB_VALUES)) {
+                return Collections.emptyList();
+            }
+
+            return invalidShape(shape, NodeType.STRING);
+        }
+
+        return applyPlugins(shape);
     }
 
     @Override

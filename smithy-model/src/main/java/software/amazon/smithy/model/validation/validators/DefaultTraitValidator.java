@@ -169,6 +169,8 @@ public final class DefaultTraitValidator extends AbstractValidator {
                     // Use WARNING for range trait errors so that a Smithy model 1.0 to 2.0 conversion can automatically
                     // suppress any errors to losslessly handle the conversion.
                     .addFeature(NodeValidationVisitor.Feature.RANGE_TRAIT_ZERO_VALUE_WARNING)
+                    // Skip validating invalid blob values as we have a separate warning for them.
+                    .addFeature(NodeValidationVisitor.Feature.SKIP_INVALID_BLOB_VALUES)
                     .build();
         } else {
             visitor.setValue(value);
